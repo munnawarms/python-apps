@@ -8,6 +8,14 @@ Created on Fri Jan  1 17:53:25 2021
 from tkinter import Tk, Canvas
 from datetime import date, datetime
 
+from tkinter import *
+
+window = Tk()
+
+window.title("Welcome to LikeGeeks app")
+
+window.mainloop()
+
 def get_events():
     list_events = []
     with open('events.txt') as file:
