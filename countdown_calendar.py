@@ -8,48 +8,42 @@ Created on Fri Jan  1 17:53:25 2021
 from tkinter import Tk, Canvas
 from datetime import date, datetime
 
-from tkinter import *
-
-window = Tk()
-
-window.title("Welcome to LikeGeeks app")
-
-window.mainloop()
-
 def get_events():
     list_events = []
     with open('events.txt') as file:
         for line in file:
             line = line.rstrip('\n')
             current_event = line.split(',')
-            event_date = datetime.strptime(current_event[1], '%d/%m/%y').date()
+            event_date = str_to_date(current_event[1])
             current_event[1] = event_date
             list_events.append(current_event)
     return list_events
 
 def days_between_dates(date1, date2):
-    time_between = str(date1—date2)
-    number_of_days = time_between.split(' ')
-    return number_of_days[0]
+     time_between = str(date1-date2)
+     number_of_days = time_between.split(' ')
+     return number_of_days[0]
 
 root = Tk()
 c = Canvas(root, width=800, height=800, bg='black')
 c.pack()
 c.create_text(100, 50, anchor='w', fill='orange', \
 font='Arial 28 bold underline', text='My Countdown Calendar')
-    
 events = get_events()
-today = date.today()  #
-
+today = date.today()  
 vertical_space = 100
-
+events.sort(key=lambda x: x[1])
 for event in events:
     event_name = event[0]
-    days_until = days_between_dates(event[1], today)
-    display = 'It is %s days until %s' % (days_until, event_name)
-    c.create_text(100,  vertical_space, anchor='w', fill='lightblue', \
-                  font='Arial 28 bold', text=display)  
-        
-    vertical_space = vertical_space + 30
-    
-        
+    event_date = event[1]
+    days_until = days_between_dates(event_date, today)
+    display = '-> It is {} days until {}'.format(days_until, event_name)
+    if int(days_until) <= 7:
+        text_col = 'red'
+    else:
+        text_col = 'black'
+    if int(days_until) <= 0:
+        display = '-> This event {} has expired'.format(event_name)
+    c.create_text(10, vertical_space, anchor='w', fill=text_col, font='Courier 15 bold italic', text=display)
+    vertical_space += 25
+root.mainloop()
