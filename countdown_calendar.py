@@ -12,6 +12,7 @@ from datetime import date, datetime
 def str_to_date(v):
     return datetime.strptime(str(v), '%d/%m/%Y').date()
 
+
 def get_events():
     list_events = []
     with open('events.txt') as file:
@@ -24,10 +25,11 @@ def get_events():
                 list_events.append(current_event)
     return list_events
 
+
 def days_between_dates(date1, date2):
-     time_between = str(date1-date2)
-     number_of_days = time_between.split(' ')
-     return number_of_days[0]
+    time_between = str(date1-date2)
+    number_of_days = time_between.split(' ')
+    return number_of_days[0]
 
 root = Tk()
 c = Canvas(root, width=800, height=800, bg='black')
@@ -37,7 +39,6 @@ events = get_events()
 today = date.today()
 vertical_space = 100
 events.sort(key=lambda x: x[1])
-
 for event in events:
     event_name = event[0]
     event_date = event[1]
@@ -46,7 +47,7 @@ for event in events:
     if int(days_until) <= 7:
         text_col = 'red'
     else:
-        text_col = 'black'
+        text_col = 'orange'
     if int(days_until) <= 0:
         display = '-> This event {} has expired'.format(event_name)
     c.create_text(10, vertical_space, anchor='w', fill=text_col, font='Courier 15 bold italic', text=display)
