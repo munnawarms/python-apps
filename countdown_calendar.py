@@ -8,15 +8,20 @@ Created on Fri Jan  1 17:53:25 2021
 from tkinter import Tk, Canvas
 from datetime import date, datetime
 
+
+def str_to_date(v):
+    return datetime.strptime(str(v), '%d/%m/%Y').date()
+
 def get_events():
     list_events = []
     with open('events.txt') as file:
         for line in file:
-            line = line.rstrip('\n')
-            current_event = line.split(',')
-            event_date = str_to_date(current_event[1])
-            current_event[1] = event_date
-            list_events.append(current_event)
+            if line != '\n':
+                line = line.rstrip('\n')
+                current_event = line.split(',')
+                event_date = str_to_date(current_event[1])
+                current_event[1] = event_date
+                list_events.append(current_event)
     return list_events
 
 def days_between_dates(date1, date2):
@@ -27,12 +32,12 @@ def days_between_dates(date1, date2):
 root = Tk()
 c = Canvas(root, width=800, height=800, bg='black')
 c.pack()
-c.create_text(100, 50, anchor='w', fill='orange', \
-font='Arial 28 bold underline', text='My Countdown Calendar')
+c.create_text(400, 10, anchor='n', fill='orange', font='Courier 28 italic bold', text='My Countdown Calendar')
 events = get_events()
-today = date.today()  
+today = date.today()
 vertical_space = 100
 events.sort(key=lambda x: x[1])
+
 for event in events:
     event_name = event[0]
     event_date = event[1]
